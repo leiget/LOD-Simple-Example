@@ -1,0 +1,2098 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://LOD_Mesh.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Spatial
+
+var LOD_Number = 0
+var LOD_Process_Active = false
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _unhandled_input(ev):
+	#If there is a key event...
+	if(ev is InputEventKey):
+		#If it's escape...
+		if(Input.is_action_just_pressed(\"ui_cancel\")):
+			get_tree().quit()
+		
+		if(Input.is_action_just_pressed(\"LOD_Process\")):
+			if( LOD_Process_Active ):
+				get_tree().call_group(\"LOD\", \"set_physics_process\", false)
+				LOD_Process_Active = false
+			else:
+				get_tree().call_group(\"LOD\", \"set_physics_process\", true)
+				LOD_Process_Active = true
+				"
+
+[sub_resource type="CubeMesh" id=2]
+
+size = Vector3( 150, 0.1, 150 )
+
+[sub_resource type="OpenSimplexNoise" id=3]
+
+seed = 7
+period = 202.1
+persistence = 0.458
+lacunarity = 3.57
+
+[sub_resource type="NoiseTexture" id=4]
+
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="SpatialMaterial" id=5]
+
+albedo_color = Color( 0.690196, 0.658824, 0.658824, 1 )
+albedo_texture = SubResource( 4 )
+roughness = 0.9
+uv1_scale = Vector3( 0.1, 0.1, 0.1 )
+uv1_triplanar = true
+
+[sub_resource type="BoxShape" id=6]
+
+extents = Vector3( 75, 0.05, 75 )
+
+[node name="Main" type="Spatial"]
+script = SubResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.592458, 0, -0.805601, 0, 1, 0, 0.805601, 0, 0.592458, -42.6077, 1.18498, 42.2488 )
+
+[node name="Floor" type="MeshInstance" parent="."]
+editor/display_folded = true
+mesh = SubResource( 2 )
+material/0 = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="Floor"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor/StaticBody"]
+shape = SubResource( 6 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.0113113, -0.493826, 0.869487, -0.482724, 0.75881, 0.437246, -0.875699, -0.424668, -0.229799, 13.2665, 15.4324, 0 )
+shadow_enabled = true
+
+[node name="LOD_Objects" type="Spatial" parent="."]
+editor/display_folded = true
+
+[node name="LOD_Mesh" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -52.0071 )
+
+[node name="LOD_Mesh176" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -25.7037 )
+
+[node name="LOD_Mesh345" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 0.794422 )
+
+[node name="LOD_Mesh515" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 28.4616 )
+
+[node name="LOD_Mesh49" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -52.0071 )
+
+[node name="LOD_Mesh218" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -25.7037 )
+
+[node name="LOD_Mesh386" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 0.794422 )
+
+[node name="LOD_Mesh554" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 28.4616 )
+
+[node name="LOD_Mesh91" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -52.0071 )
+
+[node name="LOD_Mesh260" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -25.7037 )
+
+[node name="LOD_Mesh428" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 0.794422 )
+
+[node name="LOD_Mesh596" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 28.4616 )
+
+[node name="LOD_Mesh134" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -52.0071 )
+
+[node name="LOD_Mesh302" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -25.7037 )
+
+[node name="LOD_Mesh470" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 0.794422 )
+
+[node name="LOD_Mesh638" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 28.4616 )
+
+[node name="LOD_Mesh9" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -48.5948 )
+
+[node name="LOD_Mesh172" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -22.2914 )
+
+[node name="LOD_Mesh341" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 4.20674 )
+
+[node name="LOD_Mesh511" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 31.8739 )
+
+[node name="LOD_Mesh46" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -48.5948 )
+
+[node name="LOD_Mesh215" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -22.2914 )
+
+[node name="LOD_Mesh383" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 4.20674 )
+
+[node name="LOD_Mesh551" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 31.8739 )
+
+[node name="LOD_Mesh89" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -48.5948 )
+
+[node name="LOD_Mesh258" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -22.2914 )
+
+[node name="LOD_Mesh426" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 4.20674 )
+
+[node name="LOD_Mesh594" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 31.8739 )
+
+[node name="LOD_Mesh132" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -48.5948 )
+
+[node name="LOD_Mesh300" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -22.2914 )
+
+[node name="LOD_Mesh468" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 4.20674 )
+
+[node name="LOD_Mesh636" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 31.8739 )
+
+[node name="LOD_Mesh18" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -44.5569 )
+
+[node name="LOD_Mesh185" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -18.2535 )
+
+[node name="LOD_Mesh354" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 8.24463 )
+
+[node name="LOD_Mesh524" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 35.9118 )
+
+[node name="LOD_Mesh58" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -44.5569 )
+
+[node name="LOD_Mesh227" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -18.2535 )
+
+[node name="LOD_Mesh395" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 8.24463 )
+
+[node name="LOD_Mesh563" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 35.9118 )
+
+[node name="LOD_Mesh100" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -44.5569 )
+
+[node name="LOD_Mesh268" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -18.2535 )
+
+[node name="LOD_Mesh436" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 8.24463 )
+
+[node name="LOD_Mesh604" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 35.9118 )
+
+[node name="LOD_Mesh142" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -44.5569 )
+
+[node name="LOD_Mesh310" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -18.2535 )
+
+[node name="LOD_Mesh478" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 8.24463 )
+
+[node name="LOD_Mesh646" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 35.9118 )
+
+[node name="LOD_Mesh24" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -40.3484 )
+
+[node name="LOD_Mesh193" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -14.045 )
+
+[node name="LOD_Mesh361" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 12.4531 )
+
+[node name="LOD_Mesh531" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 40.1203 )
+
+[node name="LOD_Mesh66" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -40.3484 )
+
+[node name="LOD_Mesh235" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -14.045 )
+
+[node name="LOD_Mesh403" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 12.4531 )
+
+[node name="LOD_Mesh571" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 40.1203 )
+
+[node name="LOD_Mesh108" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -40.3484 )
+
+[node name="LOD_Mesh276" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -14.045 )
+
+[node name="LOD_Mesh444" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 12.4531 )
+
+[node name="LOD_Mesh612" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 40.1203 )
+
+[node name="LOD_Mesh150" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -40.3484 )
+
+[node name="LOD_Mesh318" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -14.045 )
+
+[node name="LOD_Mesh486" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 12.4531 )
+
+[node name="LOD_Mesh654" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 40.1203 )
+
+[node name="LOD_Mesh31" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -35.2299 )
+
+[node name="LOD_Mesh201" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -8.92657 )
+
+[node name="LOD_Mesh370" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 17.5716 )
+
+[node name="LOD_Mesh540" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 45.2388 )
+
+[node name="LOD_Mesh73" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -35.2299 )
+
+[node name="LOD_Mesh242" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -8.92657 )
+
+[node name="LOD_Mesh410" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 17.5716 )
+
+[node name="LOD_Mesh578" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 45.2388 )
+
+[node name="LOD_Mesh115" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -35.2299 )
+
+[node name="LOD_Mesh283" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -8.92657 )
+
+[node name="LOD_Mesh451" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 17.5716 )
+
+[node name="LOD_Mesh619" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 45.2388 )
+
+[node name="LOD_Mesh157" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -35.2299 )
+
+[node name="LOD_Mesh325" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -8.92657 )
+
+[node name="LOD_Mesh493" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 17.5716 )
+
+[node name="LOD_Mesh661" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 45.2388 )
+
+[node name="LOD_Mesh38" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -30.4527 )
+
+[node name="LOD_Mesh208" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, -4.14934 )
+
+[node name="LOD_Mesh375" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 22.3488 )
+
+[node name="LOD_Mesh506" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2847, 0, 50.016 )
+
+[node name="LOD_Mesh80" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -30.4527 )
+
+[node name="LOD_Mesh249" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, -4.14934 )
+
+[node name="LOD_Mesh417" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 22.3488 )
+
+[node name="LOD_Mesh585" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.3954, 0, 50.016 )
+
+[node name="LOD_Mesh122" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -30.4527 )
+
+[node name="LOD_Mesh290" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, -4.14934 )
+
+[node name="LOD_Mesh458" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 22.3488 )
+
+[node name="LOD_Mesh626" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86213, 0, 50.016 )
+
+[node name="LOD_Mesh164" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -30.4527 )
+
+[node name="LOD_Mesh332" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, -4.14934 )
+
+[node name="LOD_Mesh500" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 22.3488 )
+
+[node name="LOD_Mesh668" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5551, 0, 50.016 )
+
+[node name="LOD_Mesh2" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -52.0071 )
+
+[node name="LOD_Mesh181" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -25.7037 )
+
+[node name="LOD_Mesh350" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 0.794422 )
+
+[node name="LOD_Mesh520" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 28.4616 )
+
+[node name="LOD_Mesh54" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -52.0071 )
+
+[node name="LOD_Mesh224" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -25.7037 )
+
+[node name="LOD_Mesh392" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 0.794422 )
+
+[node name="LOD_Mesh560" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 28.4616 )
+
+[node name="LOD_Mesh97" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -52.0071 )
+
+[node name="LOD_Mesh264" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -25.7037 )
+
+[node name="LOD_Mesh432" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 0.794422 )
+
+[node name="LOD_Mesh600" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 28.4616 )
+
+[node name="LOD_Mesh138" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -52.0071 )
+
+[node name="LOD_Mesh306" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -25.7037 )
+
+[node name="LOD_Mesh474" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 0.794422 )
+
+[node name="LOD_Mesh641" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 28.4616 )
+
+[node name="LOD_Mesh12" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -48.5948 )
+
+[node name="LOD_Mesh171" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -22.2914 )
+
+[node name="LOD_Mesh340" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 4.20674 )
+
+[node name="LOD_Mesh510" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 31.8739 )
+
+[node name="LOD_Mesh45" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -48.5948 )
+
+[node name="LOD_Mesh214" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -22.2914 )
+
+[node name="LOD_Mesh382" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 4.20674 )
+
+[node name="LOD_Mesh550" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 31.8739 )
+
+[node name="LOD_Mesh88" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -48.5948 )
+
+[node name="LOD_Mesh257" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -22.2914 )
+
+[node name="LOD_Mesh425" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 4.20674 )
+
+[node name="LOD_Mesh593" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 31.8739 )
+
+[node name="LOD_Mesh131" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -48.5948 )
+
+[node name="LOD_Mesh299" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -22.2914 )
+
+[node name="LOD_Mesh467" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 4.20674 )
+
+[node name="LOD_Mesh635" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 31.8739 )
+
+[node name="LOD_Mesh17" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -44.5569 )
+
+[node name="LOD_Mesh184" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -18.2535 )
+
+[node name="LOD_Mesh353" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 8.24463 )
+
+[node name="LOD_Mesh522" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 35.9118 )
+
+[node name="LOD_Mesh57" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -44.5569 )
+
+[node name="LOD_Mesh226" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -18.2535 )
+
+[node name="LOD_Mesh394" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 8.24463 )
+
+[node name="LOD_Mesh562" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 35.9118 )
+
+[node name="LOD_Mesh99" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -44.5569 )
+
+[node name="LOD_Mesh267" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -18.2535 )
+
+[node name="LOD_Mesh435" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 8.24463 )
+
+[node name="LOD_Mesh603" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 35.9118 )
+
+[node name="LOD_Mesh141" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -44.5569 )
+
+[node name="LOD_Mesh309" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -18.2535 )
+
+[node name="LOD_Mesh477" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 8.24463 )
+
+[node name="LOD_Mesh645" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 35.9118 )
+
+[node name="LOD_Mesh23" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -40.3484 )
+
+[node name="LOD_Mesh192" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -14.045 )
+
+[node name="LOD_Mesh360" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 12.4531 )
+
+[node name="LOD_Mesh530" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 40.1203 )
+
+[node name="LOD_Mesh65" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -40.3484 )
+
+[node name="LOD_Mesh234" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -14.045 )
+
+[node name="LOD_Mesh402" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 12.4531 )
+
+[node name="LOD_Mesh569" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 40.1203 )
+
+[node name="LOD_Mesh107" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -40.3484 )
+
+[node name="LOD_Mesh275" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -14.045 )
+
+[node name="LOD_Mesh443" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 12.4531 )
+
+[node name="LOD_Mesh611" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 40.1203 )
+
+[node name="LOD_Mesh149" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -40.3484 )
+
+[node name="LOD_Mesh317" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -14.045 )
+
+[node name="LOD_Mesh485" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 12.4531 )
+
+[node name="LOD_Mesh652" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 40.1203 )
+
+[node name="LOD_Mesh30" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -35.2299 )
+
+[node name="LOD_Mesh200" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -8.92657 )
+
+[node name="LOD_Mesh368" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 17.5716 )
+
+[node name="LOD_Mesh538" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 45.2388 )
+
+[node name="LOD_Mesh72" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -35.2299 )
+
+[node name="LOD_Mesh241" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -8.92657 )
+
+[node name="LOD_Mesh409" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 17.5716 )
+
+[node name="LOD_Mesh577" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 45.2388 )
+
+[node name="LOD_Mesh114" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -35.2299 )
+
+[node name="LOD_Mesh282" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -8.92657 )
+
+[node name="LOD_Mesh450" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 17.5716 )
+
+[node name="LOD_Mesh618" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 45.2388 )
+
+[node name="LOD_Mesh156" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -35.2299 )
+
+[node name="LOD_Mesh324" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -8.92657 )
+
+[node name="LOD_Mesh492" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 17.5716 )
+
+[node name="LOD_Mesh660" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 45.2388 )
+
+[node name="LOD_Mesh37" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -30.4527 )
+
+[node name="LOD_Mesh207" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, -4.14934 )
+
+[node name="LOD_Mesh376" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 22.3488 )
+
+[node name="LOD_Mesh544" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.606, 0, 50.016 )
+
+[node name="LOD_Mesh79" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -30.4527 )
+
+[node name="LOD_Mesh248" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, -4.14934 )
+
+[node name="LOD_Mesh416" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 22.3488 )
+
+[node name="LOD_Mesh584" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7168, 0, 50.016 )
+
+[node name="LOD_Mesh121" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -30.4527 )
+
+[node name="LOD_Mesh289" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, -4.14934 )
+
+[node name="LOD_Mesh457" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 22.3488 )
+
+[node name="LOD_Mesh625" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.54075, 0, 50.016 )
+
+[node name="LOD_Mesh163" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -30.4527 )
+
+[node name="LOD_Mesh331" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, -4.14934 )
+
+[node name="LOD_Mesh499" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 22.3488 )
+
+[node name="LOD_Mesh667" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2337, 0, 50.016 )
+
+[node name="LOD_Mesh3" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -52.0071 )
+
+[node name="LOD_Mesh182" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -25.7037 )
+
+[node name="LOD_Mesh351" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 0.794422 )
+
+[node name="LOD_Mesh521" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 28.4616 )
+
+[node name="LOD_Mesh55" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -52.0071 )
+
+[node name="LOD_Mesh225" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -25.7037 )
+
+[node name="LOD_Mesh393" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 0.794422 )
+
+[node name="LOD_Mesh561" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 28.4616 )
+
+[node name="LOD_Mesh98" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -52.0071 )
+
+[node name="LOD_Mesh266" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -25.7037 )
+
+[node name="LOD_Mesh434" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 0.794422 )
+
+[node name="LOD_Mesh602" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 28.4616 )
+
+[node name="LOD_Mesh140" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -52.0071 )
+
+[node name="LOD_Mesh308" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -25.7037 )
+
+[node name="LOD_Mesh476" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 0.794422 )
+
+[node name="LOD_Mesh644" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 28.4616 )
+
+[node name="LOD_Mesh13" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -48.5948 )
+
+[node name="LOD_Mesh170" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -22.2914 )
+
+[node name="LOD_Mesh339" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 4.20674 )
+
+[node name="LOD_Mesh509" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 31.8739 )
+
+[node name="LOD_Mesh44" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -48.5948 )
+
+[node name="LOD_Mesh213" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -22.2914 )
+
+[node name="LOD_Mesh381" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 4.20674 )
+
+[node name="LOD_Mesh549" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 31.8739 )
+
+[node name="LOD_Mesh87" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -48.5948 )
+
+[node name="LOD_Mesh255" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -22.2914 )
+
+[node name="LOD_Mesh423" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 4.20674 )
+
+[node name="LOD_Mesh591" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 31.8739 )
+
+[node name="LOD_Mesh129" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -48.5948 )
+
+[node name="LOD_Mesh297" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -22.2914 )
+
+[node name="LOD_Mesh465" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 4.20674 )
+
+[node name="LOD_Mesh633" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 31.8739 )
+
+[node name="LOD_Mesh16" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -44.5569 )
+
+[node name="LOD_Mesh190" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -18.2535 )
+
+[node name="LOD_Mesh358" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 8.24463 )
+
+[node name="LOD_Mesh528" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 35.9118 )
+
+[node name="LOD_Mesh63" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -44.5569 )
+
+[node name="LOD_Mesh232" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -18.2535 )
+
+[node name="LOD_Mesh400" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 8.24463 )
+
+[node name="LOD_Mesh568" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 35.9118 )
+
+[node name="LOD_Mesh105" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -44.5569 )
+
+[node name="LOD_Mesh273" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -18.2535 )
+
+[node name="LOD_Mesh441" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 8.24463 )
+
+[node name="LOD_Mesh609" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 35.9118 )
+
+[node name="LOD_Mesh147" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -44.5569 )
+
+[node name="LOD_Mesh315" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -18.2535 )
+
+[node name="LOD_Mesh483" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 8.24463 )
+
+[node name="LOD_Mesh651" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 35.9118 )
+
+[node name="LOD_Mesh28" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -40.3484 )
+
+[node name="LOD_Mesh198" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -14.045 )
+
+[node name="LOD_Mesh366" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 12.4531 )
+
+[node name="LOD_Mesh536" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 40.1203 )
+
+[node name="LOD_Mesh70" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -40.3484 )
+
+[node name="LOD_Mesh239" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -14.045 )
+
+[node name="LOD_Mesh407" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 12.4531 )
+
+[node name="LOD_Mesh575" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 40.1203 )
+
+[node name="LOD_Mesh112" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -40.3484 )
+
+[node name="LOD_Mesh281" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -14.045 )
+
+[node name="LOD_Mesh449" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 12.4531 )
+
+[node name="LOD_Mesh617" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 40.1203 )
+
+[node name="LOD_Mesh155" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -40.3484 )
+
+[node name="LOD_Mesh323" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -14.045 )
+
+[node name="LOD_Mesh491" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 12.4531 )
+
+[node name="LOD_Mesh659" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 40.1203 )
+
+[node name="LOD_Mesh35" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -35.2299 )
+
+[node name="LOD_Mesh205" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -8.92657 )
+
+[node name="LOD_Mesh373" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 17.5716 )
+
+[node name="LOD_Mesh543" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 45.2388 )
+
+[node name="LOD_Mesh77" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -35.2299 )
+
+[node name="LOD_Mesh246" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -8.92657 )
+
+[node name="LOD_Mesh414" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 17.5716 )
+
+[node name="LOD_Mesh583" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 45.2388 )
+
+[node name="LOD_Mesh119" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -35.2299 )
+
+[node name="LOD_Mesh287" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -8.92657 )
+
+[node name="LOD_Mesh455" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 17.5716 )
+
+[node name="LOD_Mesh623" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 45.2388 )
+
+[node name="LOD_Mesh161" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -35.2299 )
+
+[node name="LOD_Mesh330" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -8.92657 )
+
+[node name="LOD_Mesh498" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 17.5716 )
+
+[node name="LOD_Mesh666" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 45.2388 )
+
+[node name="LOD_Mesh42" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -30.4527 )
+
+[node name="LOD_Mesh212" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, -4.14934 )
+
+[node name="LOD_Mesh380" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 22.3488 )
+
+[node name="LOD_Mesh548" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.8856, 0, 50.016 )
+
+[node name="LOD_Mesh84" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -30.4527 )
+
+[node name="LOD_Mesh253" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, -4.14934 )
+
+[node name="LOD_Mesh421" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 22.3488 )
+
+[node name="LOD_Mesh589" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9964, 0, 50.016 )
+
+[node name="LOD_Mesh126" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -30.4527 )
+
+[node name="LOD_Mesh294" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, -4.14934 )
+
+[node name="LOD_Mesh462" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 22.3488 )
+
+[node name="LOD_Mesh630" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2612, 0, 50.016 )
+
+[node name="LOD_Mesh168" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -30.4527 )
+
+[node name="LOD_Mesh336" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, -4.14934 )
+
+[node name="LOD_Mesh504" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 22.3488 )
+
+[node name="LOD_Mesh672" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.9542, 0, 50.016 )
+
+[node name="LOD_Mesh4" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -52.0071 )
+
+[node name="LOD_Mesh175" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -25.7037 )
+
+[node name="LOD_Mesh344" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 0.794422 )
+
+[node name="LOD_Mesh514" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 28.4616 )
+
+[node name="LOD_Mesh48" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -52.0071 )
+
+[node name="LOD_Mesh194" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -25.7037 )
+
+[node name="LOD_Mesh362" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 0.794422 )
+
+[node name="LOD_Mesh532" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 28.4616 )
+
+[node name="LOD_Mesh86" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -52.0071 )
+
+[node name="LOD_Mesh256" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -25.7037 )
+
+[node name="LOD_Mesh424" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 0.794422 )
+
+[node name="LOD_Mesh592" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 28.4616 )
+
+[node name="LOD_Mesh130" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -52.0071 )
+
+[node name="LOD_Mesh298" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -25.7037 )
+
+[node name="LOD_Mesh466" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 0.794422 )
+
+[node name="LOD_Mesh634" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 28.4616 )
+
+[node name="LOD_Mesh8" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -48.5948 )
+
+[node name="LOD_Mesh179" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -22.2914 )
+
+[node name="LOD_Mesh348" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 4.20674 )
+
+[node name="LOD_Mesh518" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 31.8739 )
+
+[node name="LOD_Mesh52" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -48.5948 )
+
+[node name="LOD_Mesh221" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -22.2914 )
+
+[node name="LOD_Mesh389" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 4.20674 )
+
+[node name="LOD_Mesh557" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 31.8739 )
+
+[node name="LOD_Mesh94" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -48.5948 )
+
+[node name="LOD_Mesh263" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -22.2914 )
+
+[node name="LOD_Mesh431" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 4.20674 )
+
+[node name="LOD_Mesh599" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 31.8739 )
+
+[node name="LOD_Mesh137" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -48.5948 )
+
+[node name="LOD_Mesh305" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -22.2914 )
+
+[node name="LOD_Mesh473" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 4.20674 )
+
+[node name="LOD_Mesh642" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 31.8739 )
+
+[node name="LOD_Mesh21" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -44.5569 )
+
+[node name="LOD_Mesh188" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -18.2535 )
+
+[node name="LOD_Mesh337" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 8.24463 )
+
+[node name="LOD_Mesh507" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 35.9118 )
+
+[node name="LOD_Mesh61" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -44.5569 )
+
+[node name="LOD_Mesh230" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -18.2535 )
+
+[node name="LOD_Mesh398" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 8.24463 )
+
+[node name="LOD_Mesh566" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 35.9118 )
+
+[node name="LOD_Mesh103" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -44.5569 )
+
+[node name="LOD_Mesh271" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -18.2535 )
+
+[node name="LOD_Mesh439" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 8.24463 )
+
+[node name="LOD_Mesh607" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 35.9118 )
+
+[node name="LOD_Mesh145" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -44.5569 )
+
+[node name="LOD_Mesh313" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -18.2535 )
+
+[node name="LOD_Mesh481" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 8.24463 )
+
+[node name="LOD_Mesh649" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 35.9118 )
+
+[node name="LOD_Mesh27" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -40.3484 )
+
+[node name="LOD_Mesh197" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -14.045 )
+
+[node name="LOD_Mesh365" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 12.4531 )
+
+[node name="LOD_Mesh535" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 40.1203 )
+
+[node name="LOD_Mesh69" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -40.3484 )
+
+[node name="LOD_Mesh238" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -14.045 )
+
+[node name="LOD_Mesh406" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 12.4531 )
+
+[node name="LOD_Mesh574" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 40.1203 )
+
+[node name="LOD_Mesh111" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -40.3484 )
+
+[node name="LOD_Mesh279" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -14.045 )
+
+[node name="LOD_Mesh447" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 12.4531 )
+
+[node name="LOD_Mesh615" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 40.1203 )
+
+[node name="LOD_Mesh153" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -40.3484 )
+
+[node name="LOD_Mesh321" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -14.045 )
+
+[node name="LOD_Mesh489" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 12.4531 )
+
+[node name="LOD_Mesh657" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 40.1203 )
+
+[node name="LOD_Mesh34" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -35.2299 )
+
+[node name="LOD_Mesh204" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -8.92657 )
+
+[node name="LOD_Mesh372" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 17.5716 )
+
+[node name="LOD_Mesh542" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 45.2388 )
+
+[node name="LOD_Mesh76" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -35.2299 )
+
+[node name="LOD_Mesh245" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -8.92657 )
+
+[node name="LOD_Mesh412" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 17.5716 )
+
+[node name="LOD_Mesh580" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 45.2388 )
+
+[node name="LOD_Mesh118" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -35.2299 )
+
+[node name="LOD_Mesh286" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -8.92657 )
+
+[node name="LOD_Mesh454" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 17.5716 )
+
+[node name="LOD_Mesh622" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 45.2388 )
+
+[node name="LOD_Mesh160" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -35.2299 )
+
+[node name="LOD_Mesh327" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -8.92657 )
+
+[node name="LOD_Mesh495" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 17.5716 )
+
+[node name="LOD_Mesh663" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 45.2388 )
+
+[node name="LOD_Mesh41" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -30.4527 )
+
+[node name="LOD_Mesh211" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, -4.14934 )
+
+[node name="LOD_Mesh379" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 22.3488 )
+
+[node name="LOD_Mesh547" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7472, 0, 50.016 )
+
+[node name="LOD_Mesh83" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -30.4527 )
+
+[node name="LOD_Mesh252" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, -4.14934 )
+
+[node name="LOD_Mesh420" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 22.3488 )
+
+[node name="LOD_Mesh588" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.858, 0, 50.016 )
+
+[node name="LOD_Mesh125" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -30.4527 )
+
+[node name="LOD_Mesh293" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, -4.14934 )
+
+[node name="LOD_Mesh461" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 22.3488 )
+
+[node name="LOD_Mesh629" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3996, 0, 50.016 )
+
+[node name="LOD_Mesh167" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -30.4527 )
+
+[node name="LOD_Mesh335" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, -4.14934 )
+
+[node name="LOD_Mesh503" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 22.3488 )
+
+[node name="LOD_Mesh671" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.0926, 0, 50.016 )
+
+[node name="LOD_Mesh5" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -52.0071 )
+
+[node name="LOD_Mesh189" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -25.7037 )
+
+[node name="LOD_Mesh357" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 0.794422 )
+
+[node name="LOD_Mesh527" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 28.4616 )
+
+[node name="LOD_Mesh62" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -52.0071 )
+
+[node name="LOD_Mesh231" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -25.7037 )
+
+[node name="LOD_Mesh399" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 0.794422 )
+
+[node name="LOD_Mesh567" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 28.4616 )
+
+[node name="LOD_Mesh104" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -52.0071 )
+
+[node name="LOD_Mesh272" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -25.7037 )
+
+[node name="LOD_Mesh440" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 0.794422 )
+
+[node name="LOD_Mesh608" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 28.4616 )
+
+[node name="LOD_Mesh146" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -52.0071 )
+
+[node name="LOD_Mesh314" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -25.7037 )
+
+[node name="LOD_Mesh482" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 0.794422 )
+
+[node name="LOD_Mesh650" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 28.4616 )
+
+[node name="LOD_Mesh14" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -48.5948 )
+
+[node name="LOD_Mesh169" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -22.2914 )
+
+[node name="LOD_Mesh338" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 4.20674 )
+
+[node name="LOD_Mesh508" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 31.8739 )
+
+[node name="LOD_Mesh43" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -48.5948 )
+
+[node name="LOD_Mesh173" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -22.2914 )
+
+[node name="LOD_Mesh342" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 4.20674 )
+
+[node name="LOD_Mesh512" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 31.8739 )
+
+[node name="LOD_Mesh85" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -48.5948 )
+
+[node name="LOD_Mesh254" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -22.2914 )
+
+[node name="LOD_Mesh422" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 4.20674 )
+
+[node name="LOD_Mesh590" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 31.8739 )
+
+[node name="LOD_Mesh128" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -48.5948 )
+
+[node name="LOD_Mesh296" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -22.2914 )
+
+[node name="LOD_Mesh464" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 4.20674 )
+
+[node name="LOD_Mesh632" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 31.8739 )
+
+[node name="LOD_Mesh15" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -44.5569 )
+
+[node name="LOD_Mesh183" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -18.2535 )
+
+[node name="LOD_Mesh352" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 8.24463 )
+
+[node name="LOD_Mesh523" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 35.9118 )
+
+[node name="LOD_Mesh56" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -44.5569 )
+
+[node name="LOD_Mesh223" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -18.2535 )
+
+[node name="LOD_Mesh391" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 8.24463 )
+
+[node name="LOD_Mesh559" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 35.9118 )
+
+[node name="LOD_Mesh96" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -44.5569 )
+
+[node name="LOD_Mesh265" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -18.2535 )
+
+[node name="LOD_Mesh433" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 8.24463 )
+
+[node name="LOD_Mesh601" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 35.9118 )
+
+[node name="LOD_Mesh139" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -44.5569 )
+
+[node name="LOD_Mesh307" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -18.2535 )
+
+[node name="LOD_Mesh475" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 8.24463 )
+
+[node name="LOD_Mesh643" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 35.9118 )
+
+[node name="LOD_Mesh22" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -40.3484 )
+
+[node name="LOD_Mesh191" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -14.045 )
+
+[node name="LOD_Mesh359" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 12.4531 )
+
+[node name="LOD_Mesh529" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 40.1203 )
+
+[node name="LOD_Mesh64" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -40.3484 )
+
+[node name="LOD_Mesh233" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -14.045 )
+
+[node name="LOD_Mesh401" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 12.4531 )
+
+[node name="LOD_Mesh570" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 40.1203 )
+
+[node name="LOD_Mesh106" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -40.3484 )
+
+[node name="LOD_Mesh274" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -14.045 )
+
+[node name="LOD_Mesh442" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 12.4531 )
+
+[node name="LOD_Mesh610" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 40.1203 )
+
+[node name="LOD_Mesh148" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -40.3484 )
+
+[node name="LOD_Mesh316" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -14.045 )
+
+[node name="LOD_Mesh484" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 12.4531 )
+
+[node name="LOD_Mesh653" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 40.1203 )
+
+[node name="LOD_Mesh29" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -35.2299 )
+
+[node name="LOD_Mesh199" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -8.92657 )
+
+[node name="LOD_Mesh367" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 17.5716 )
+
+[node name="LOD_Mesh537" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 45.2388 )
+
+[node name="LOD_Mesh71" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -35.2299 )
+
+[node name="LOD_Mesh240" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -8.92657 )
+
+[node name="LOD_Mesh408" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 17.5716 )
+
+[node name="LOD_Mesh576" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 45.2388 )
+
+[node name="LOD_Mesh113" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -35.2299 )
+
+[node name="LOD_Mesh280" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -8.92657 )
+
+[node name="LOD_Mesh448" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 17.5716 )
+
+[node name="LOD_Mesh616" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 45.2388 )
+
+[node name="LOD_Mesh154" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -35.2299 )
+
+[node name="LOD_Mesh322" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -8.92657 )
+
+[node name="LOD_Mesh490" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 17.5716 )
+
+[node name="LOD_Mesh658" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 45.2388 )
+
+[node name="LOD_Mesh36" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -30.4527 )
+
+[node name="LOD_Mesh206" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, -4.14934 )
+
+[node name="LOD_Mesh374" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 22.3488 )
+
+[node name="LOD_Mesh505" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.6087, 0, 50.016 )
+
+[node name="LOD_Mesh78" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -30.4527 )
+
+[node name="LOD_Mesh247" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, -4.14934 )
+
+[node name="LOD_Mesh415" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 22.3488 )
+
+[node name="LOD_Mesh582" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.71952, 0, 50.016 )
+
+[node name="LOD_Mesh120" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -30.4527 )
+
+[node name="LOD_Mesh288" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, -4.14934 )
+
+[node name="LOD_Mesh456" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 22.3488 )
+
+[node name="LOD_Mesh624" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.538, 0, 50.016 )
+
+[node name="LOD_Mesh162" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -30.4527 )
+
+[node name="LOD_Mesh329" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, -4.14934 )
+
+[node name="LOD_Mesh497" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 22.3488 )
+
+[node name="LOD_Mesh664" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.231, 0, 50.016 )
+
+[node name="LOD_Mesh6" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -52.0071 )
+
+[node name="LOD_Mesh180" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -25.7037 )
+
+[node name="LOD_Mesh349" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 0.794422 )
+
+[node name="LOD_Mesh519" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 28.4616 )
+
+[node name="LOD_Mesh53" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -52.0071 )
+
+[node name="LOD_Mesh222" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -25.7037 )
+
+[node name="LOD_Mesh390" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 0.794422 )
+
+[node name="LOD_Mesh558" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 28.4616 )
+
+[node name="LOD_Mesh95" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -52.0071 )
+
+[node name="LOD_Mesh217" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -25.7037 )
+
+[node name="LOD_Mesh385" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 0.794422 )
+
+[node name="LOD_Mesh553" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 28.4616 )
+
+[node name="LOD_Mesh127" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -52.0071 )
+
+[node name="LOD_Mesh295" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -25.7037 )
+
+[node name="LOD_Mesh463" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 0.794422 )
+
+[node name="LOD_Mesh631" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 28.4616 )
+
+[node name="LOD_Mesh11" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -48.5948 )
+
+[node name="LOD_Mesh174" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -22.2914 )
+
+[node name="LOD_Mesh343" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 4.20674 )
+
+[node name="LOD_Mesh513" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 31.8739 )
+
+[node name="LOD_Mesh47" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -48.5948 )
+
+[node name="LOD_Mesh216" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -22.2914 )
+
+[node name="LOD_Mesh384" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 4.20674 )
+
+[node name="LOD_Mesh552" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 31.8739 )
+
+[node name="LOD_Mesh90" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -48.5948 )
+
+[node name="LOD_Mesh259" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -22.2914 )
+
+[node name="LOD_Mesh427" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 4.20674 )
+
+[node name="LOD_Mesh595" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 31.8739 )
+
+[node name="LOD_Mesh133" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -48.5948 )
+
+[node name="LOD_Mesh301" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -22.2914 )
+
+[node name="LOD_Mesh469" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 4.20674 )
+
+[node name="LOD_Mesh637" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 31.8739 )
+
+[node name="LOD_Mesh19" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -44.5569 )
+
+[node name="LOD_Mesh186" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -18.2535 )
+
+[node name="LOD_Mesh355" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 8.24463 )
+
+[node name="LOD_Mesh526" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 35.9118 )
+
+[node name="LOD_Mesh59" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -44.5569 )
+
+[node name="LOD_Mesh228" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -18.2535 )
+
+[node name="LOD_Mesh396" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 8.24463 )
+
+[node name="LOD_Mesh564" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 35.9118 )
+
+[node name="LOD_Mesh101" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -44.5569 )
+
+[node name="LOD_Mesh269" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -18.2535 )
+
+[node name="LOD_Mesh437" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 8.24463 )
+
+[node name="LOD_Mesh605" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 35.9118 )
+
+[node name="LOD_Mesh143" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -44.5569 )
+
+[node name="LOD_Mesh311" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -18.2535 )
+
+[node name="LOD_Mesh479" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 8.24463 )
+
+[node name="LOD_Mesh647" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 35.9118 )
+
+[node name="LOD_Mesh25" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -40.3484 )
+
+[node name="LOD_Mesh195" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -14.045 )
+
+[node name="LOD_Mesh363" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 12.4531 )
+
+[node name="LOD_Mesh533" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 40.1203 )
+
+[node name="LOD_Mesh67" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -40.3484 )
+
+[node name="LOD_Mesh236" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -14.045 )
+
+[node name="LOD_Mesh404" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 12.4531 )
+
+[node name="LOD_Mesh572" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 40.1203 )
+
+[node name="LOD_Mesh109" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -40.3484 )
+
+[node name="LOD_Mesh277" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -14.045 )
+
+[node name="LOD_Mesh445" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 12.4531 )
+
+[node name="LOD_Mesh613" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 40.1203 )
+
+[node name="LOD_Mesh151" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -40.3484 )
+
+[node name="LOD_Mesh320" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -14.045 )
+
+[node name="LOD_Mesh488" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 12.4531 )
+
+[node name="LOD_Mesh656" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 40.1203 )
+
+[node name="LOD_Mesh32" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -35.2299 )
+
+[node name="LOD_Mesh202" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -8.92657 )
+
+[node name="LOD_Mesh369" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 17.5716 )
+
+[node name="LOD_Mesh539" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 45.2388 )
+
+[node name="LOD_Mesh74" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -35.2299 )
+
+[node name="LOD_Mesh243" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -8.92657 )
+
+[node name="LOD_Mesh411" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 17.5716 )
+
+[node name="LOD_Mesh579" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 45.2388 )
+
+[node name="LOD_Mesh116" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -35.2299 )
+
+[node name="LOD_Mesh284" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -8.92657 )
+
+[node name="LOD_Mesh452" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 17.5716 )
+
+[node name="LOD_Mesh620" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 45.2388 )
+
+[node name="LOD_Mesh158" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -35.2299 )
+
+[node name="LOD_Mesh326" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -8.92657 )
+
+[node name="LOD_Mesh494" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 17.5716 )
+
+[node name="LOD_Mesh662" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 45.2388 )
+
+[node name="LOD_Mesh39" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -30.4527 )
+
+[node name="LOD_Mesh209" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, -4.14934 )
+
+[node name="LOD_Mesh377" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 22.3488 )
+
+[node name="LOD_Mesh545" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3482, 0, 50.016 )
+
+[node name="LOD_Mesh81" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -30.4527 )
+
+[node name="LOD_Mesh250" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, -4.14934 )
+
+[node name="LOD_Mesh418" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 22.3488 )
+
+[node name="LOD_Mesh586" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45893, 0, 50.016 )
+
+[node name="LOD_Mesh123" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -30.4527 )
+
+[node name="LOD_Mesh291" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, -4.14934 )
+
+[node name="LOD_Mesh459" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 22.3488 )
+
+[node name="LOD_Mesh627" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7986, 0, 50.016 )
+
+[node name="LOD_Mesh165" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -30.4527 )
+
+[node name="LOD_Mesh333" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, -4.14934 )
+
+[node name="LOD_Mesh501" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 22.3488 )
+
+[node name="LOD_Mesh669" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.4916, 0, 50.016 )
+
+[node name="LOD_Mesh7" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -52.0071 )
+
+[node name="LOD_Mesh178" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -25.7037 )
+
+[node name="LOD_Mesh347" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 0.794422 )
+
+[node name="LOD_Mesh517" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 28.4616 )
+
+[node name="LOD_Mesh51" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -52.0071 )
+
+[node name="LOD_Mesh220" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -25.7037 )
+
+[node name="LOD_Mesh388" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 0.794422 )
+
+[node name="LOD_Mesh556" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 28.4616 )
+
+[node name="LOD_Mesh93" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -52.0071 )
+
+[node name="LOD_Mesh262" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -25.7037 )
+
+[node name="LOD_Mesh430" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 0.794422 )
+
+[node name="LOD_Mesh598" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 28.4616 )
+
+[node name="LOD_Mesh136" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -52.0071 )
+
+[node name="LOD_Mesh304" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -25.7037 )
+
+[node name="LOD_Mesh472" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 0.794422 )
+
+[node name="LOD_Mesh640" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 28.4616 )
+
+[node name="LOD_Mesh10" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -48.5948 )
+
+[node name="LOD_Mesh177" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -22.2914 )
+
+[node name="LOD_Mesh346" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 4.20674 )
+
+[node name="LOD_Mesh516" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 31.8739 )
+
+[node name="LOD_Mesh50" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -48.5948 )
+
+[node name="LOD_Mesh219" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -22.2914 )
+
+[node name="LOD_Mesh387" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 4.20674 )
+
+[node name="LOD_Mesh555" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 31.8739 )
+
+[node name="LOD_Mesh92" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -48.5948 )
+
+[node name="LOD_Mesh261" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -22.2914 )
+
+[node name="LOD_Mesh429" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 4.20674 )
+
+[node name="LOD_Mesh597" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 31.8739 )
+
+[node name="LOD_Mesh135" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -48.5948 )
+
+[node name="LOD_Mesh303" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -22.2914 )
+
+[node name="LOD_Mesh471" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 4.20674 )
+
+[node name="LOD_Mesh639" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 31.8739 )
+
+[node name="LOD_Mesh20" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -44.5569 )
+
+[node name="LOD_Mesh187" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -18.2535 )
+
+[node name="LOD_Mesh356" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 8.24463 )
+
+[node name="LOD_Mesh525" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 35.9118 )
+
+[node name="LOD_Mesh60" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -44.5569 )
+
+[node name="LOD_Mesh229" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -18.2535 )
+
+[node name="LOD_Mesh397" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 8.24463 )
+
+[node name="LOD_Mesh565" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 35.9118 )
+
+[node name="LOD_Mesh102" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -44.5569 )
+
+[node name="LOD_Mesh270" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -18.2535 )
+
+[node name="LOD_Mesh438" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 8.24463 )
+
+[node name="LOD_Mesh606" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 35.9118 )
+
+[node name="LOD_Mesh144" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -44.5569 )
+
+[node name="LOD_Mesh312" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -18.2535 )
+
+[node name="LOD_Mesh480" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 8.24463 )
+
+[node name="LOD_Mesh648" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 35.9118 )
+
+[node name="LOD_Mesh26" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -40.3484 )
+
+[node name="LOD_Mesh196" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -14.045 )
+
+[node name="LOD_Mesh364" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 12.4531 )
+
+[node name="LOD_Mesh534" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 40.1203 )
+
+[node name="LOD_Mesh68" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -40.3484 )
+
+[node name="LOD_Mesh237" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -14.045 )
+
+[node name="LOD_Mesh405" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 12.4531 )
+
+[node name="LOD_Mesh573" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 40.1203 )
+
+[node name="LOD_Mesh110" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -40.3484 )
+
+[node name="LOD_Mesh278" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -14.045 )
+
+[node name="LOD_Mesh446" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 12.4531 )
+
+[node name="LOD_Mesh614" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 40.1203 )
+
+[node name="LOD_Mesh152" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -40.3484 )
+
+[node name="LOD_Mesh319" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -14.045 )
+
+[node name="LOD_Mesh487" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 12.4531 )
+
+[node name="LOD_Mesh655" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 40.1203 )
+
+[node name="LOD_Mesh33" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -35.2299 )
+
+[node name="LOD_Mesh203" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -8.92657 )
+
+[node name="LOD_Mesh371" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 17.5716 )
+
+[node name="LOD_Mesh541" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 45.2388 )
+
+[node name="LOD_Mesh75" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -35.2299 )
+
+[node name="LOD_Mesh244" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -8.92657 )
+
+[node name="LOD_Mesh413" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 17.5716 )
+
+[node name="LOD_Mesh581" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 45.2388 )
+
+[node name="LOD_Mesh117" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -35.2299 )
+
+[node name="LOD_Mesh285" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -8.92657 )
+
+[node name="LOD_Mesh453" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 17.5716 )
+
+[node name="LOD_Mesh621" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 45.2388 )
+
+[node name="LOD_Mesh159" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -35.2299 )
+
+[node name="LOD_Mesh328" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -8.92657 )
+
+[node name="LOD_Mesh496" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 17.5716 )
+
+[node name="LOD_Mesh665" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 45.2388 )
+
+[node name="LOD_Mesh40" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -30.4527 )
+
+[node name="LOD_Mesh210" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, -4.14934 )
+
+[node name="LOD_Mesh378" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 22.3488 )
+
+[node name="LOD_Mesh546" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.795, 0, 50.016 )
+
+[node name="LOD_Mesh82" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -30.4527 )
+
+[node name="LOD_Mesh251" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, -4.14934 )
+
+[node name="LOD_Mesh419" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 22.3488 )
+
+[node name="LOD_Mesh587" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90573, 0, 50.016 )
+
+[node name="LOD_Mesh124" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -30.4527 )
+
+[node name="LOD_Mesh292" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, -4.14934 )
+
+[node name="LOD_Mesh460" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 22.3488 )
+
+[node name="LOD_Mesh628" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3518, 0, 50.016 )
+
+[node name="LOD_Mesh166" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -30.4527 )
+
+[node name="LOD_Mesh334" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, -4.14934 )
+
+[node name="LOD_Mesh502" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 22.3488 )
+
+[node name="LOD_Mesh670" parent="LOD_Objects" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.0448, 0, 50.016 )
+
